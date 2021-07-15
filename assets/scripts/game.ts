@@ -4,6 +4,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+import { MonsterBullet } from "./monster-bullet";
 import { NamespaceData } from "./namespace-data";
 
 const { ccclass, property } = cc._decorator;
@@ -17,8 +18,8 @@ export class Game extends cc.Component {
     @property(cc.Prefab)
     private bulletPrefab: cc.Prefab = null;
 
-    // @property(cc.Node)
-    // public jet: cc.Node = null;
+    @property(cc.Node)
+    public jet: cc.Node = null;
 
     @property(cc.Node)
     private heart1: cc.Node = null;
@@ -102,13 +103,14 @@ export class Game extends cc.Component {
             }
         }
         if (aliveMonster.length != 0) {
-            var posBullut = aliveMonster[Math.floor(Math.random() * aliveMonster.length)];
+            var posBullet = aliveMonster[Math.floor(Math.random() * aliveMonster.length)];
 
             var newBullet = cc.instantiate(this.bulletPrefab);
-            this.node.addChild(newBullet, posBullut, "MonsterBullet" + ((posBullut).toString()));
+            this.node.addChild(newBullet, posBullet, "MonsterBullet" + ((posBullet).toString()));
 
-            newBullet.getComponent('MonsterBullet');
-            newBullet.setPosition(monster_position[posBullut][0] - 75, monster_position[posBullut][1]);
+            let bulletMonster:MonsterBullet = newBullet.getComponent(MonsterBullet);
+            newBullet.setPosition(monster_position[posBullet][0], monster_position[posBullet][1]);
+            bulletMonster.monsterShoot(this.jet.x,this.jet.y);
         }
 
     }

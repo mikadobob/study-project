@@ -1,7 +1,9 @@
 {
   "group-list": [
     "monster",
-    "jet-bullet"
+    "jet-bullet",
+    "monster-bullet",
+    "jet"
   ],
   "collision-matrix": [
     [
@@ -9,6 +11,20 @@
       true
     ],
     [
+      true,
+      false,
+      null,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
       true,
       false
     ]

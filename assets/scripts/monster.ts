@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 import { Game } from "./game";
-import { NamespaceMonster } from "./namespace-test";
+import { NamespaceData } from "./namespace-data";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +16,7 @@ export class Monster extends cc.Component {
 
     onCollisionEnter(otherCollider, selfCollider) {
         if (otherCollider.name == "jet_bullet<PolygonCollider>") {
-            NamespaceMonster.setDeadMonster(this.node.zIndex);
+            NamespaceData.setDeadMonster(this.node.zIndex);
             // console.log(this.node.zIndex);
             this.node.destroy();
         }

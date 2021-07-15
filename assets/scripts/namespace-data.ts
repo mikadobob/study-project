@@ -7,9 +7,11 @@
 
 // const { ccclass, property } = cc._decorator;
 
-export namespace NamespaceMonster {
+export namespace NamespaceData {
 
     let monster_position: number[][] = [];
+    let lifePlayer = 0;
+    let heart = [0, 0, 0];
 
     // let monster_position: number[][] = [[0, -200, 348, 0], [1, -100, 348, 0], [2, 0, 348, 0], [3, 100, 348, 0], [4, 200, 348, 0],
     // [5, -200, 263, 0], [6, -100, 263, 0], [7, 0, 263, 0], [8, 100, 263, 0], [9, 200, 263, 0],
@@ -26,6 +28,18 @@ export namespace NamespaceMonster {
             posx += 100;
         }
         posy -= 85;
+    }
+
+    export function setLifePlayer() {
+        lifePlayer = 3;
+    }
+
+    export function decreaseLifePlayer() {
+        lifePlayer -= 1;
+    }
+
+    export function getLifePlayer() {
+        return lifePlayer;
     }
 
     export function setAliveMonster(indexMonster) {

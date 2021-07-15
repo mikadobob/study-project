@@ -22,7 +22,6 @@ export default class NewClass extends cc.Component {
     private fire: boolean = false;
     private accLeft: boolean = false;
     private accRight: boolean = false;
-    private pos: number = 0;
 
 
     onLoad() {
@@ -30,7 +29,7 @@ export default class NewClass extends cc.Component {
         this.accLeft = false;
         this.accRight = false;
         // The main character's current horizontal velocity
-        this.pos = 0;
+        this.node.x = 0;
 
         // Initialize the keyboard input listening
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -74,18 +73,26 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    onCollisionEnter(otherCollider, selfCollider) {
+        // this.node.destroy();
+        // console.log(otherCollider);
+    }
 
     update(dt) {
         if (this.accLeft) {
-            this.pos -= this.moveSpeed;
+            this.node.x -= this.moveSpeed;
         } else if (this.accRight) {
-            this.pos += this.moveSpeed;
+            this.node.x += this.moveSpeed;
         }
 
         if (this.fire) {
             this.schedule(this.shootBullets, 1 / this.fireRate, 0, 0);
         }
-
-        this.node.x = this.pos;
+        
+        if ( this.node.x > this.node.parent.width/2) {
+            this.node.x = this.node.parent.width/2;
+        } else if (this.node.x < -this.node.parent.width/2) {
+            this.node.x = -this.node.parent.width/2;
+        }
     }
 }

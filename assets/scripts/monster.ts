@@ -14,26 +14,14 @@ export class Monster extends cc.Component {
 
     private game = new Game;
 
+    ActualScore: number = 0;
+
     onCollisionEnter(otherCollider, selfCollider) {
         if (otherCollider.name == "jet_bullet<PolygonCollider>") {
             NamespaceData.setDeadMonster(this.node.zIndex);
-            // console.log(this.node.zIndex);
+            NamespaceData.addScore();
             this.node.destroy();
         }
     }
-
-    // update(dt){
-    //     this.testSet();
-    //     this.schedule(this.consoleLog, 0.5, cc.macro.REPEAT_FOREVER, 1);
-    // }
-
-    // private count: number = 0;
-    // consoleLog() {
-        // console.log(this.game.getPosition(25));
-    // }
-    // testSet(){
-    //     this.count += 1;
-    //     NamespaceTest.set(this.count);
-    // }
 
 }

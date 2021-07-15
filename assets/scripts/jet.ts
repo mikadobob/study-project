@@ -28,10 +28,8 @@ export default class NewClass extends cc.Component {
 
         this.accLeft = false;
         this.accRight = false;
-        // The main character's current horizontal velocity
         this.node.x = 0;
 
-        // Initialize the keyboard input listening
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     }
@@ -43,7 +41,6 @@ export default class NewClass extends cc.Component {
     }
 
     onKeyDown(event) {
-        // Set a flag when key pressed
         switch (event.keyCode) {
             case cc.macro.KEY.left:
                 this.accLeft = true;
@@ -59,7 +56,6 @@ export default class NewClass extends cc.Component {
 
 
     onKeyUp(event) {
-        // Unset a flag when key released
         switch (event.keyCode) {
             case cc.macro.KEY.left:
                 this.accLeft = false;
@@ -71,11 +67,6 @@ export default class NewClass extends cc.Component {
                 this.fire = false;
                 break;
         }
-    }
-
-    onCollisionEnter(otherCollider, selfCollider) {
-        // this.node.destroy();
-        // console.log(otherCollider);
     }
 
     update(dt) {

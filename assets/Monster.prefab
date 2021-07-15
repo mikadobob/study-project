@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PurpleMonster",
+    "_name": "Monster",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -147,6 +147,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "score": null,
     "_id": ""
   },
   {

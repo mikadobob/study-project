@@ -17,8 +17,20 @@ export class Game extends cc.Component {
     @property(cc.Prefab)
     private bulletPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    private heart: cc.Prefab = null;
+    // @property(cc.Node)
+    // public jet: cc.Node = null;
+
+    @property(cc.Node)
+    private heart1: cc.Node = null;
+
+    @property(cc.Node)
+    private heart2: cc.Node = null;
+
+    @property(cc.Node)
+    private heart3: cc.Node = null;
+
+    @property(cc.Label)
+    score: cc.Label = null;
 
 
 
@@ -27,6 +39,9 @@ export class Game extends cc.Component {
         NamespaceData.setLifePlayer();
     }
 
+    updateScore() {
+        this.score.string = "SCORE: " + NamespaceData.getScore().toString();
+    }
 
     firstSpawnMonster() {
         let monster_position = NamespaceData.getMonsterPosition();
@@ -39,19 +54,8 @@ export class Game extends cc.Component {
 
             NamespaceData.setAliveMonster(i);
         }
-        // this.node.removeChild(this.node.getChildByName("Monster5"));
     }
 
-    // setEmptyPosition(indexMonster) {
-    //     this.monster_position[indexMonster-1][3] = 0;
-    // }
-    // setEmptyPosition(position, value) {
-    //     this.monster_position[position - 1][3] = value;
-    // }
-
-    // getPosition(position) {
-    //     return this.monster_position[position - 1][3];
-    // }
 
     spawnMonster() {
         let monster_position = NamespaceData.getMonsterPosition();
@@ -76,8 +80,8 @@ export class Game extends cc.Component {
     onLoad() {
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        this.schedule(this.spawnMonster, 2, cc.macro.REPEAT_FOREVER, 1);
-        this.schedule(this.monsterAttack, 1, cc.macro.REPEAT_FOREVER, 5);
+        this.schedule(this.spawnMonster, 1, cc.macro.REPEAT_FOREVER, 1);
+        this.schedule(this.monsterAttack, 0.5, cc.macro.REPEAT_FOREVER, 3);
 
         this.schedule(this.checkGameOver, 0, cc.macro.REPEAT_FOREVER, 0);
     }
@@ -85,8 +89,8 @@ export class Game extends cc.Component {
     private count: number = 0;
 
     update(dt) {
-        // console.log(NamespaceData.getMonsterPosition());
-        if (NamespaceData.countAliveMonster() <= 20) this.spawnMonster();
+        if (NamespaceData.countAliveMonster() < 20) this.spawnMonster();
+        this.updateScore();
     }
 
     monsterAttack() {
@@ -101,28 +105,30 @@ export class Game extends cc.Component {
             var posBullut = aliveMonster[Math.floor(Math.random() * aliveMonster.length)];
 
             var newBullet = cc.instantiate(this.bulletPrefab);
-            this.node.addChild(newBullet, posBullut, "Monster" + ((posBullut).toString()));
+            this.node.addChild(newBullet, posBullut, "MonsterBullet" + ((posBullut).toString()));
 
             newBullet.getComponent('MonsterBullet');
-            newBullet.setPosition(monster_position[posBullut][0] - 60, monster_position[posBullut][1]);
+            newBullet.setPosition(monster_position[posBullut][0] - 75, monster_position[posBullut][1]);
         }
 
     }
 
     checkGameOver() {
         if (NamespaceData.getLifePlayer() == 0) {
-            console.log("GAME OVER");
+            if (cc.isValid(this.heart3)) {
+                this.heart3.destroy();
+            }
+        }
+        if (NamespaceData.getLifePlayer() <= 2) {
+            if (cc.isValid(this.heart1)) {
+                this.heart1.destroy();
+            }
+        }
+        if (NamespaceData.getLifePlayer() <= 1) {
+            if (cc.isValid(this.heart2)) {
+                this.heart2.destroy();
+            }
         }
     }
-
-    // consoleGet() {
-    //     console.log(NamespaceData.get());
-    // }
-
-    // testSet(){
-    //     this.count += 1;
-    //     NamespaceData.set(this.count);
-    // }
-
 
 }

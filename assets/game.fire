@@ -1678,6 +1678,9 @@
     "monsterPrefab": {
       "__uuid__": "0d290d59-b480-4014-b71d-0a3f95bbe0c3"
     },
+    "eliteMonsterPrefab": {
+      "__uuid__": "0e02ebfe-46b9-4795-b247-9cc269806939"
+    },
     "bulletPrefab": {
       "__uuid__": "f10573d6-414d-4d18-ada7-5832b1127330"
     },

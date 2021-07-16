@@ -16,6 +16,9 @@ export class Game extends cc.Component {
     private monsterPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
+    private eliteMonsterPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
     private bulletPrefab: cc.Prefab = null;
 
     @property(cc.Node)
@@ -93,11 +96,19 @@ export class Game extends cc.Component {
         }
         if (emptyLocation.length != 0) {
             var newLocation = emptyLocation[Math.floor(Math.random() * emptyLocation.length)];
+            if (Math.floor(Math.random() * 100) != 7) {
 
-            var newMonster = cc.instantiate(this.monsterPrefab);
-            this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
+                var newMonster = cc.instantiate(this.monsterPrefab);
+                this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
 
-            newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
+                newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
+            }
+            else {
+                var newMonster = cc.instantiate(this.eliteMonsterPrefab);
+                this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
+
+                newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
+            }
             NamespaceData.setAliveMonster(newLocation);
         }
     }

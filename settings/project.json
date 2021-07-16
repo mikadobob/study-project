@@ -13,12 +13,12 @@
     [
       true,
       false,
-      null,
+      true,
       false
     ],
     [
       false,
-      false,
+      true,
       false,
       true
     ],

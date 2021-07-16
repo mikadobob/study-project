@@ -19,6 +19,12 @@ export default class NewClass extends cc.Component {
     @property
     fireRate: number = 5;
 
+    @property(cc.AudioClip)
+    fireSound: cc.AudioClip = null;
+
+    @property(cc.Label)
+    fireRateLabel: cc.Label = null;
+
     private fire: boolean = false;
     private accLeft: boolean = false;
     private accRight: boolean = false;
@@ -38,6 +44,7 @@ export default class NewClass extends cc.Component {
         var bullet = cc.instantiate(this.jet_bullet);
         bullet.setPosition(this.node.position.x, this.node.position.y);
         this.node.parent.addChild(bullet);
+        cc.audioEngine.playEffect(this.fireSound, false);
     }
 
     onKeyDown(event) {
@@ -50,6 +57,12 @@ export default class NewClass extends cc.Component {
                 break;
             case cc.macro.KEY.space:
                 this.fire = true;
+                break;
+            case cc.macro.KEY.z:
+                this.fireRate += 1;
+                break;
+            case cc.macro.KEY.x:
+                this.fireRate -= 1;
                 break;
         }
     }
@@ -70,6 +83,7 @@ export default class NewClass extends cc.Component {
     }
 
     update(dt) {
+        this.fireRateLabel.string = "Rate of Fire: " + this.fireRate.toString();
         if (this.accLeft) {
             this.node.x -= this.moveSpeed;
         } else if (this.accRight) {
@@ -79,11 +93,11 @@ export default class NewClass extends cc.Component {
         if (this.fire) {
             this.schedule(this.shootBullets, 1 / this.fireRate, 0, 0);
         }
-        
-        if ( this.node.x > this.node.parent.width/2) {
-            this.node.x = this.node.parent.width/2;
-        } else if (this.node.x < -this.node.parent.width/2) {
-            this.node.x = -this.node.parent.width/2;
+
+        if (this.node.x > this.node.parent.width / 2) {
+            this.node.x = this.node.parent.width / 2;
+        } else if (this.node.x < -this.node.parent.width / 2) {
+            this.node.x = -this.node.parent.width / 2;
         }
     }
 }

@@ -16,10 +16,20 @@ export class Monster extends cc.Component {
 
     ActualScore: number = 0;
 
+    @property(cc.AudioClip)
+    monsterDestroySound: cc.AudioClip = null;
+
     onCollisionEnter(otherCollider, selfCollider) {
         if (otherCollider.name == "jet_bullet<PolygonCollider>") {
             NamespaceData.setDeadMonster(this.node.zIndex);
             NamespaceData.addScore();
+            cc.audioEngine.playEffect(this.monsterDestroySound, false);
+            this.node.destroy();
+        }
+    }
+
+    update(dt) {
+        if (NamespaceData.getGameStatus() == 0) {
             this.node.destroy();
         }
     }

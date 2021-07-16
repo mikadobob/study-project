@@ -33,11 +33,37 @@ export class Game extends cc.Component {
     @property(cc.Label)
     score: cc.Label = null;
 
+    @property(cc.Label)
+    gameOver: cc.Label = null;
+
+    @property(cc.Node)
+    restart: cc.Node = null;
+
+    @property(cc.AudioClip)
+    gameOverSound: cc.AudioClip = null;
 
 
     start() {
         this.firstSpawnMonster();
-        NamespaceData.setLifePlayer();
+        NamespaceData.resetLifePlayer();
+        NamespaceData.setGameStatus(1);
+        // this.restart.active = false;
+
+
+        // this.node.on(cc.Node.EventType.TOUCH_START,function(event){
+        //     cc.director.loadScene('game');
+        // },this);
+
+    }
+
+    onStartGame() {
+        NamespaceData.resetScore();
+        NamespaceData.resetMonster();
+        this.heart1.active = true;
+        this.heart2.active = true;
+        this.heart3.active = true;
+        cc.director.loadScene('game');
+        this.score.string = "SCORE: " + NamespaceData.getScore().toString();
     }
 
     updateScore() {
@@ -50,7 +76,6 @@ export class Game extends cc.Component {
             var newMonster = cc.instantiate(this.monsterPrefab);
             this.node.addChild(newMonster, i, "Monster" + ((i).toString()));
 
-            newMonster.getComponent('Monster');
             newMonster.setPosition(monster_position[i][0], monster_position[i][1]);
 
             NamespaceData.setAliveMonster(i);
@@ -72,7 +97,6 @@ export class Game extends cc.Component {
             var newMonster = cc.instantiate(this.monsterPrefab);
             this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
 
-            newMonster.getComponent('Monster');
             newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
             NamespaceData.setAliveMonster(newLocation);
         }
@@ -108,27 +132,37 @@ export class Game extends cc.Component {
             var newBullet = cc.instantiate(this.bulletPrefab);
             this.node.addChild(newBullet, posBullet, "MonsterBullet" + ((posBullet).toString()));
 
-            let bulletMonster:MonsterBullet = newBullet.getComponent(MonsterBullet);
+            let bulletMonster: MonsterBullet = newBullet.getComponent(MonsterBullet);
             newBullet.setPosition(monster_position[posBullet][0], monster_position[posBullet][1]);
-            bulletMonster.monsterShoot(this.jet.x,this.jet.y);
+            bulletMonster.monsterShoot(this.jet.x, this.jet.y);
         }
 
+    }
+
+    gameOverFunction() {
+        cc.audioEngine.playEffect(this.gameOverSound, false);
+        this.enabled = false;
+        this.jet.active = false;
+        this.gameOver.enabled = true;
+        this.restart.active = true;
+        NamespaceData.setGameStatus(0);
     }
 
     checkGameOver() {
         if (NamespaceData.getLifePlayer() == 0) {
             if (cc.isValid(this.heart3)) {
-                this.heart3.destroy();
+                this.heart3.active = false;
+                this.gameOverFunction();
             }
         }
         if (NamespaceData.getLifePlayer() <= 2) {
             if (cc.isValid(this.heart1)) {
-                this.heart1.destroy();
+                this.heart1.active = false;
             }
         }
         if (NamespaceData.getLifePlayer() <= 1) {
             if (cc.isValid(this.heart2)) {
-                this.heart2.destroy();
+                this.heart2.active = false;
             }
         }
     }

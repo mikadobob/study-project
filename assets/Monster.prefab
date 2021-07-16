@@ -147,7 +147,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "score": null,
+    "monsterDestroySound": {
+      "__uuid__": "bf812382-d5a4-45ed-a6cf-0fc3bc48bbf3"
+    },
     "_id": ""
   },
   {
@@ -264,7 +266,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0d290d59-b480-4014-b71d-0a3f95bbe0c3"
     },
     "fileId": "",
     "sync": false

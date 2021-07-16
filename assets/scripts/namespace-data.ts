@@ -12,6 +12,7 @@ export namespace NamespaceData {
     let monster_position: number[][] = [];
     let lifePlayer = 0;
     let score = 0;
+    let gameStatus = 1;
 
     let posy = 348;
     for (let i = 0; i < 6; i++) {
@@ -23,6 +24,18 @@ export namespace NamespaceData {
         posy -= 85;
     }
 
+    export function setGameStatus(status: number) {
+        gameStatus = status;
+    }
+
+    export function getGameStatus() {
+        return gameStatus;
+    }
+
+    export function resetScore() {
+        score = 0;
+    }
+
     export function getScore() {
         return score;
     }
@@ -31,7 +44,7 @@ export namespace NamespaceData {
         score += 1;
     }
 
-    export function setLifePlayer() {
+    export function resetLifePlayer() {
         lifePlayer = 3;
     }
 
@@ -53,6 +66,19 @@ export namespace NamespaceData {
 
     export function getMonsterPosition() {
         return monster_position;
+    }
+
+    export function resetMonster() {
+        let posy = 348;
+        monster_position = [];
+        for (let i = 0; i < 6; i++) {
+            let posx = -200
+            for (let j = 0; j < 5; j++) {
+                monster_position.push([posx, posy, 0])
+                posx += 100;
+            }
+            posy -= 85;
+        }
     }
 
     export function countAliveMonster() {

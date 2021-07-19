@@ -16,7 +16,7 @@ export class MonsterBullet extends cc.Component {
 
     @property
     moveSpeed: number = 200;
-    
+
     @property(cc.AudioClip)
     hitJetSound: cc.AudioClip = null;
 

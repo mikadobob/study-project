@@ -96,19 +96,19 @@ export class Game extends cc.Component {
         }
         if (emptyLocation.length != 0) {
             var newLocation = emptyLocation[Math.floor(Math.random() * emptyLocation.length)];
-            if (Math.floor(Math.random() * 100) != 7) {
+            // if (Math.floor(Math.random() * 100) != 7) {
 
-                var newMonster = cc.instantiate(this.monsterPrefab);
-                this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
+            var newMonster = cc.instantiate(this.monsterPrefab);
+            this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
 
-                newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
-            }
-            else {
-                var newMonster = cc.instantiate(this.eliteMonsterPrefab);
-                this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
+            newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
+            // }
+            // else {
+            // var newMonster = cc.instantiate(this.eliteMonsterPrefab);
+            // this.node.addChild(newMonster, newLocation, "Monster" + ((newLocation).toString()));
 
-                newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
-            }
+            // newMonster.setPosition(monster_position[newLocation][0], monster_position[newLocation][1]);
+            // }
             NamespaceData.setAliveMonster(newLocation);
         }
     }
@@ -119,7 +119,7 @@ export class Game extends cc.Component {
         this.schedule(this.spawnMonster, 1, cc.macro.REPEAT_FOREVER, 1);
         this.schedule(this.monsterAttack, 0.5, cc.macro.REPEAT_FOREVER, 3);
 
-        this.schedule(this.checkGameOver, 0, cc.macro.REPEAT_FOREVER, 0);
+        // this.schedule(this.checkGameOver, 0, cc.macro.REPEAT_FOREVER, 0);
     }
 
     private count: number = 0;
@@ -127,6 +127,8 @@ export class Game extends cc.Component {
     update(dt) {
         if (NamespaceData.countAliveMonster() < 20) this.spawnMonster();
         this.updateScore();
+        this.checkGameOver();
+        this.setShowHeart();
     }
 
     monsterAttack() {
@@ -159,22 +161,40 @@ export class Game extends cc.Component {
         NamespaceData.setGameStatus(0);
     }
 
-    checkGameOver() {
+    setShowHeart() {
+        if (NamespaceData.getLifePlayer() == 3) {
+            this.heart1.active = true;
+            this.heart2.active = true;
+            this.heart3.active = true;
+        }
+        if (NamespaceData.getLifePlayer() == 2) {
+            if (cc.isValid(this.heart1)) {
+                this.heart1.active = false;
+                this.heart2.active = true;
+                this.heart3.active = true;
+            }
+        }
+        if (NamespaceData.getLifePlayer() == 1) {
+            if (cc.isValid(this.heart2)) {
+                this.heart1.active = false;
+                this.heart2.active = false;
+                this.heart3.active = true;
+            }
+        }
         if (NamespaceData.getLifePlayer() == 0) {
             if (cc.isValid(this.heart3)) {
+                this.heart1.active = false;
+                this.heart2.active = false;
                 this.heart3.active = false;
                 this.gameOverFunction();
             }
         }
-        if (NamespaceData.getLifePlayer() <= 2) {
-            if (cc.isValid(this.heart1)) {
-                this.heart1.active = false;
-            }
-        }
-        if (NamespaceData.getLifePlayer() <= 1) {
-            if (cc.isValid(this.heart2)) {
-                this.heart2.active = false;
-            }
+    }
+
+    checkGameOver() {
+        if (NamespaceData.getLifePlayer() == 0) {
+            this.gameOverFunction();
+
         }
     }
 
